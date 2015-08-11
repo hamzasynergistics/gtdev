@@ -21,7 +21,7 @@ $split_codes = str_split($codes, 3);
 				<div class="collapse navbar-collapse" id="navbar-collapse-1">
 					<ul id="navigation" class="nav navbar-nav navbar-right">
 						<li class="active"><a href="#header" class="current">Home</a></li>
-						<li><a href="#features">How App works</a></li>
+						<li><a href="#features">How it works</a></li>
 						<li><a href="#portfolio">Features</a></li>
 						<li><a href="#testimonials">Reviews</a></li>
 						<li><a href="#contact">Contact</a></li>
@@ -34,7 +34,7 @@ $split_codes = str_split($codes, 3);
 		<img src="<?php echo base_url(); ?>assets/images/img1.png" alt="banner image" class="banner-img">
 		<section id="features" class="section section-center section-hilite section-features">
 			<div class="container">
-				<h2 class="section-title"><span>How App works?</span></h2>
+				<h2 class="section-title"><span>How it works?</span></h2>
 				<div class="row">
 					<div class="col-md-4 col-sm-6">
 						<div class="icon-wrap"><img src="<?php echo base_url(); ?>assets/images/img2.jpg" alt=""></div>

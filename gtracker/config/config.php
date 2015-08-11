@@ -15,7 +15,7 @@
 |
 */
 //local
-$config['base_url']	= 'http://localhost/dropbox/projects/gtdev/';
+$config['base_url']	= 'http://localhost/gtdev/';
 
 //live
 //$config['base_url']	= 'http://synergistics.ae/goldtracker/';

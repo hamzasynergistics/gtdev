@@ -141,6 +141,55 @@ class Gold extends CI_Controller {
         redirect('gold/index');
     }
     
+    public function save_user(){
+                
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('url', 'Website URL', 'required');
+
+        if ($this->form_validation->run() == FALSE) {            
+            $this->load->view('includes/header');
+            $this->load->view('signup');
+            $this->load->view('includes/footer');
+        } 
+        else{
+            $user_data = array(
+                'username' => $_POST['username'],
+                'email'    => $_POST['email'],
+                'address'  => $_POST['url']
+            );
+
+            $res = $this->Book_model->saveUser($user_data);
+            if($res){
+                $this->session->userdata('success', 'Your information hass been sent for Approval !');
+                redirect('users');
+            }
+            else{
+                $this->session->userdata('error', "Your account couldn't be created !");
+                redirect('signup');                
+            }                
+        }
+    }
+
+    public function get_users(){
+        $result['users'] = $this->Gold_model->getAllUsers();
+        
+        $this->load->view('includes/header');
+        $this->load->view('users', $result);
+        $this->load->view('includes/footer');
+    } 
+    
+    public function update_user_status(){
+        $result = $this->Gold_model->updateUserStatus($this->uri->segment(3));
+        if($result != 0){
+            $this->session->userdata('success', 'User Successfully Approved !');
+            redirect('users');
+        }
+        else{
+            $this->session->userdata('error', "User couldn't be Approved !");
+            redirect('users');                
+        }
+    }
     
     public function widget_verify(){
 //        $res = $this->Gold_model->checkUser($_POST['url']);
@@ -164,35 +213,36 @@ class Gold extends CI_Controller {
     
     
     function api(){          
-//        $address = 'Lahore, Pakistan';
-//        $new_address = str_replace(" ", "+", $address);
-//        $url = "http://maps.google.com/maps/api/geocode/json?address=$new_address&sensor=false";
-//        $json = file_get_contents($url);
-//        $j = json_decode($json);
-//        $lat = $j->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
-//        $long = $j->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
-//        $city = $j->{'results'}[0]->{'address_components'}[0]->{'long_name'};
-//        
-////        if ($mapLat == '' && $mapLong == '') {
-//            // Get lat long from google
-//            $latlong = get_lat_long($address); // create a function with the name "get_lat_long" given as below
-//            $map = explode(',', $latlong);
-//            $mapLat = $map[0];
-//            $mapLong = $map[1];
-////        }
-//
-//        // function to get  the address
-//        function get_lat_long($address) {
-//
-//            $address = str_replace(" ", "+", $address);
-//
-//            $json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false");
-//            $json = json_decode($json);
-//
-//            return $lat . ',' . $long;
+        $address = 'Lahore, Pakistan';
+        $new_address = str_replace(" ", "+", $address);
+        $url = "http://maps.google.com/maps/api/geocode/json?address=$new_address&sensor=false";
+        $json = file_get_contents($url);
+        $j = json_decode($json);
+        $lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+        $long = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+        
+        echo '<pre>'; print_r($j); die;
+        
+//        if ($mapLat == '' && $mapLong == '') {
+            // Get lat long from google
+            $latlong = get_lat_long('Lahore, Pakistan'); // create a function with the name "get_lat_long" given as below
+            $map = explode(',', $latlong);
+            echo $mapLat = $map[0];
+            echo $mapLong = $map[1]; die;
 //        }
 
-        $this->load->view('api');
+// function to get  the address
+        function get_lat_long($address) {
+
+            $address = str_replace(" ", "+", $address);
+
+            $json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false");
+            $json = json_decode($json);
+
+            return $lat . ',' . $long;
+        }
+
+//        $this->load->view('api');
     }
     
     function graphRate(){
